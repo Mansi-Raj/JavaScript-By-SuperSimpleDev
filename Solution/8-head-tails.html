@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heads Tails</title>
+</head>
+<body>
+  <p>Heads Tails</p>
+  <button onclick="playHeadsTails('heads')">
+    Heads
+  </button>
+
+  <button onclick="playHeadsTails('tails')">
+    Tails
+  </button>
+
+  <button onclick="resetScore()">
+    Reset Score
+  </button>
+
+  <script>
+    const score= JSON.parse(localStorage.getItem('score'))|| {
+      wins: 0,
+      losses: 0
+    };
+
+    function playHeadsTails(pick){
+      const guess =pickGuess();
+      let result='';
+
+      if(pick==='heads'){
+        if(guess==='heads'){
+          result = 'You win.';
+        }else{
+          result='You lose.';
+        }
+      }else if(pick==='tails'){
+        if(guess==='heads'){
+          result='You lose.';
+        }else{
+          result='You win.';
+        }
+      }
+
+      if(result==='You win.'){
+        score.wins+=1;
+      }else{
+        score.losses+=1;
+      }
+
+      localStorage.setItem('score', JSON.stringify(score));
+
+      alert(`You picked ${pick} and toss result is ${guess}. ${result}\n Win: ${score.wins}, Loses: ${score.losses}.`)
+    }
+
+    function pickGuess(){
+      let randomNo=Math.random();
+      if(randomNo<1/5){
+        return 'heads';
+      }else if(randomNo<1){
+        return 'tails';
+      }
+    }
+
+    function resetScore(){
+      score.wins=0,
+      score.losses=0
+      localStorage.removeItem('score');
+      alert('Score has been reset.');
+    }
+  </script>
+</body>
+</html>
