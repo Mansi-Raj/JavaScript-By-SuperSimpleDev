@@ -27,7 +27,7 @@
       const inputElement = document.querySelector('.js-input');
       let cost= Number(inputElement.value);
       if(cost<40){
-        cost+=10;
+        cost = (cost*100 + 10*100)/100; //9g exercise
       }
       document.querySelector('.js-result').innerHTML = `$ ${cost}`;
     }
