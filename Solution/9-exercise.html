@@ -28,6 +28,30 @@
 
   <p class="js-name"></p>
 
+  <!--9h-->
+  <input placeholder="type something" onkeyup="handleOnkeyup9h()" class="js-input9h">
+  <p class="js-typeSomething"></p>
+
+  <!--9i-->
+  <button >Show Quantity</button>
+  <button onclick="manageCartQuantity('add1')">
+    Add to Cart</button>
+  <button onclick="manageCartQuantity('add2')">
+    +2</button>
+  <button onclick="manageCartQuantity('add3')">
+    +3</button>
+  <button onclick="manageCartQuantity('add4')">
+    +4</button>
+  <button onclick="manageCartQuantity('add5')">
+    +5</button>
+  <button onclick="manageCartQuantity('removeAll')">
+    Remove from cart</button>
+  <button onclick="manageCartQuantity('remove2')">
+    -2</button>
+  <button onclick="manageCartQuantity('remove3')">
+    -3</button>
+  <p class="js-showCartQuantity"></p>
+
   <script>
     //9a
     console.log(document.querySelector('.js-button-9a'));
@@ -43,6 +67,40 @@
       if(event.key === 'Enter'){
         displayName();
       }
+    }
+
+    //9h
+    function handleOnkeyup9h(){
+      const inputElement = document.querySelector('.js-input9h');
+      document.querySelector('.js-typeSomething')
+        .innerHTML = inputElement.value;
+    }
+
+    //9i
+    let quantity = 0;
+    function manageCartQuantity(action){
+      if(action === 'add1'){
+        quantity+=1;
+      }else if(action === 'add2'){
+        quantity+=2;
+      }else if(action === 'add3'){
+        quantity+=3;
+      }else if(action === 'add4'){
+        quantity+=4;
+      }else if(action === 'add5'){
+        quantity+=5;
+      }else if(action === 'removeAll'){
+        quantity=0;
+      }else if(action === 'remove2'){
+        if(quantity>=2) quantity-=2;
+        else quantity=0;
+      }else if(action === 'remove3'){
+        if(quantity>=3)quantity-=3;
+        else quantity
+      }
+
+      document.querySelector('.js-showCartQuantity')
+        .innerHTML = `Cart quantity: ${quantity}`;
     }
   </script>
 </body>
