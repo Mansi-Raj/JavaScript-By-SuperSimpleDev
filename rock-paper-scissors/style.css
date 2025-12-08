@@ -1,0 +1,36 @@
+body{
+      background-color: rgb(27, 26, 26);
+      color: white;
+      margin: 5px;
+    }
+
+    .title{
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .move-image{
+      height: 50px;
+    }
+
+    .move-button{
+      background-color: transparent;
+      border: 3px solid white;
+      height: 120px;
+      width: 120px;
+      border-radius: 50%;
+      margin-right: 10px;
+      margin-bottom: 30px;
+      cursor: pointer;
+    }
+
+    .js-result{
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .reset-score{
+      font-size: 12px;
+      padding: 5px 10px;
+      margin-top: 5px;
+    }

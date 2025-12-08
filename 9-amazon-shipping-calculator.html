@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shipping Calculator</title>
+  <!--Style elements are added during chapter 10-->
+  <style>
+    .css-calculateButton{
+      padding: 10px;
+      color: white;
+      background-color: green;
+      border: 0cap;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <p>Amazon Shipping Calculator</p>
@@ -11,8 +21,9 @@
   <p>Orders over or equal to 40$ = Free shipping.</p>
 
   <input type="number" placeholder="Cost of order" class="js-input" 
-  onkeydown="manageOnkeydownEvent(event);">
-  <button onclick="calculateTotal()">Calculate</button>
+  onkeydown="manageOnkeydownEvent(event);" style="padding: 8px;">
+  <button onclick="calculateTotal()" class="css-calculateButton">
+    Calculate</button>
 
   <p class="js-result"></p>
 
