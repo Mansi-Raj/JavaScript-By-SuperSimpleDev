@@ -1,0 +1,38 @@
+body{
+  background-color: white;
+}
+
+.js-taskInput{
+  padding: 8px;
+  margin-right: 5px;
+}
+
+.js-dueDate{
+  padding: 7px;
+  margin-right: 5px;
+}
+
+.js-add-button{
+  padding: 10px 30px;
+  border: none;
+  background-color: rgb(73, 179, 73);
+  color: white;
+  margin-bottom: 15px;
+}
+
+.todo-grid{
+  display: grid;
+  grid-template-columns: 200px 135px 100px;
+  row-gap: 10px;
+}
+
+.task-delete-button{
+  border: none;
+  padding: 10px 23px;
+  background-color: rgb(146, 39, 39);
+  color: white;
+}
+
+.div-css{
+  padding: 10px 0px;
+}
