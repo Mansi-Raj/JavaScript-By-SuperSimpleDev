@@ -24,25 +24,14 @@ products.forEach((product) => {
       </div>
 
       <div class="product-quantity-container">
-        <select>
-          <option  selected value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
-      </div>
+      <select class="js-quantity-selector-${product.id}">
+        ${generateOptions(10)}
+      </select>
+    </div>
 
       <div class="product-spacer"></div>
 
-      <div class="add-to-cart">
-        <img src="images/icons/checkmark.png" alt="">
-        Added
+      <div class="add-to-cart js-added-${product.id}">
       </div>
 
       <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id ="${product.id}">
@@ -52,12 +41,24 @@ products.forEach((product) => {
   `;
 });
 
+function generateOptions(count) {
+  let options = '';
+  for (let i = 1; i <= count; i++) {
+    options += `<option value="${i}">${i}</option>`;
+  }
+  return options;
+}
+
 document.querySelector('.js-products-grid').innerHTML = productHTML;
 
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
      const productId = button.dataset.productId;
+
+     let quantaitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+
+     let quantaity = Number(quantaitySelector.value);
 
      let matchingItem;
 
@@ -68,11 +69,11 @@ document.querySelectorAll('.js-add-to-cart')
      });
 
      if(matchingItem){
-      matchingItem.quantity += 1;
+      matchingItem.quantity += quantaity;
      }else{
       cart.push({
       productId: productId,
-      quantity: 1
+      quantity: quantaity
      });
      }
 
@@ -82,5 +83,10 @@ document.querySelectorAll('.js-add-to-cart')
      })
 
      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
+     let addedMark = document.querySelector(`.js-added-${productId}`); 
+     addedMark.innerHTML = '<img class="check-mark" src="images/icons/checkmark.png" alt=""> Added';
+
+     setTimeout(() => {addedMark.innerHTML = ''}, 2000);
   });
 });
