@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateCartQuantity } from '../data/cart.js';
+import { cart, removeFromCart, updateCartQuantity, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { moneyFormatting } from './utilities/money.js';
 
@@ -118,14 +118,14 @@ document.querySelectorAll('.js-update-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;
 
-    const container = document.querySelector(`.js-quatity-label-${productId}`);
+    const container = document.querySelector(`.js-quantity-label-${productId}`);
 
     if(link.innerHTML.trim() === 'Update'){
       link.innerHTML = 'Save';
       const currentQuantity = container.innerHTML;
 
       container.innerHTML = `<input 
-          class="quantity-input js-quantity-input-{productId}" 
+          class="quantity-input js-quantity-input-${productId}" 
           type="number" 
           min="0" 
           value="${currentQuantity}"
@@ -134,11 +134,13 @@ document.querySelectorAll('.js-update-link').forEach((link) => {
     }else{
       link.innerHTML = 'Update';
 
-      const inputEle =document.querySelector(`.js-quantity-input=${productId}`);
+      const inputEle =document.querySelector(`.js-quantity-input-${productId}`);
       const newQuantity = Number(inputEle.value);
+      updateQuantity(productId, newQuantity);
 
       container.innerHTML = newQuantity;
-      updateCartQuantity();
+      const cartQuantity = updateCartQuantity();
+      document.querySelector('.js-checkout-count').innerHTML = `${cartQuantity} items`;
     }
   });
 });
