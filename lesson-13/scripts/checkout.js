@@ -35,9 +35,9 @@ cart.forEach((cartItem) => {
           </div>
           <div class="product-quantity">
             <span>
-              Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+              Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
+            <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
               Update
             </span>
             <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
@@ -108,5 +108,37 @@ document.querySelectorAll('.js-delete-link')
       removeFromCart(productId);
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
       container.remove();
+      const cartQuantity = updateCartQuantity();
+      document.querySelector('.js-checkout-count')
+        .innerHTML = `${cartQuantity} items`;
     });
   });
+
+document.querySelectorAll('.js-update-link').forEach((link) => {
+  link.addEventListener('click', () => {
+    const productId = link.dataset.productId;
+
+    const container = document.querySelector(`.js-quatity-label-${productId}`);
+
+    if(link.innerHTML.trim() === 'Update'){
+      link.innerHTML = 'Save';
+      const currentQuantity = container.innerHTML;
+
+      container.innerHTML = `<input 
+          class="quantity-input js-quantity-input-{productId}" 
+          type="number" 
+          min="0" 
+          value="${currentQuantity}"
+          oninput="this.value = Math.abs(this.value)"
+        >`;
+    }else{
+      link.innerHTML = 'Update';
+
+      const inputEle =document.querySelector(`.js-quantity-input=${productId}`);
+      const newQuantity = Number(inputEle.value);
+
+      container.innerHTML = newQuantity;
+      updateCartQuantity();
+    }
+  });
+});
