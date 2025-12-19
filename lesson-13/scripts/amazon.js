@@ -1,5 +1,6 @@
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
+import { moneyFormatting } from './utilities/money.js';
 
 let productHTML = '';
 
@@ -22,7 +23,7 @@ products.forEach((product) => {
       </div>
 
       <div class="product-price">
-        ${(product.priceCents / 100).toFixed(2)}
+        ${moneyFormatting(product.priceCents)}
       </div>
 
       <div class="product-quantity-container">
@@ -53,38 +54,22 @@ function generateOptions(count) {
 
 document.querySelector('.js-products-grid').innerHTML = productHTML;
 
+function updateCartQuantity(){
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  })
+
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
+
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
      const productId = button.dataset.productId;
 
-     let quantaitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
-
-     let quantaity = Number(quantaitySelector.value);
-
-     let matchingItem;
-
-     cart.forEach((item) => {
-      if(productId === item.productId){
-        matchingItem = item;
-      }
-     });
-
-     if(matchingItem){
-      matchingItem.quantity += quantaity;
-     }else{
-      cart.push({
-      productId: productId,
-      quantity: quantaity
-     });
-     }
-
-     let cartQuantity = 0;
-     cart.forEach((item) => {
-      cartQuantity += item.quantity;
-     })
-
-     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+     addToCart(productId);
+     updateCartQuantity();
 
      let addedMark = document.querySelector(`.js-added-${productId}`); 
      addedMark.innerHTML = '<img class="check-mark" src="images/icons/checkmark.png" alt=""> Added';
