@@ -1,4 +1,4 @@
-import { cart, addToCart } from '../data/cart.js';
+import { cart, addToCart, updateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { moneyFormatting } from './utilities/money.js';
 
@@ -52,16 +52,10 @@ function generateOptions(count) {
   return options;
 }
 
+let cartQuantity = document.querySelector('.js-cart-quantity');
+cartQuantity.innerHTML = updateCartQuantity();
+
 document.querySelector('.js-products-grid').innerHTML = productHTML;
-
-function updateCartQuantity(){
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  })
-
-  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-}
 
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
@@ -69,7 +63,8 @@ document.querySelectorAll('.js-add-to-cart')
      const productId = button.dataset.productId;
 
      addToCart(productId);
-     updateCartQuantity();
+     cartQuantity.innerHTML = updateCartQuantity();
+
 
      let addedMark = document.querySelector(`.js-added-${productId}`); 
      addedMark.innerHTML = '<img class="check-mark" src="images/icons/checkmark.png" alt=""> Added';

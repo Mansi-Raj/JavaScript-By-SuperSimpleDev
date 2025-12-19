@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart, updateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { moneyFormatting } from './utilities/money.js';
 
@@ -97,6 +97,9 @@ cart.forEach((cartItem) => {
 
 document.querySelector('.js-order-summary')
   .innerHTML = cartProductHTML;
+
+let checkoutCount = document.querySelector('.js-checkout-count');
+checkoutCount.innerHTML = `${updateCartQuantity()} items`;
 
 document.querySelectorAll('.js-delete-link')
   .forEach((link) => {

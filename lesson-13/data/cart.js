@@ -33,10 +33,18 @@ export function removeFromCart(productId) {
 
   cart.forEach((cartItem) => {
     if (cartItem.productId !== productId) {
-      newCart.push(cartItem);
+      newCart.push(cartItem);    
     }
   });
 
   cart = newCart;
   saveToCart();
+}
+
+export function updateCartQuantity(){
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  })
+  return cartQuantity;
 }
