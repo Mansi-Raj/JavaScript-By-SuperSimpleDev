@@ -1,6 +1,9 @@
 import { cart, removeFromCart, updateCartQuantity, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { moneyFormatting } from './utilities/money.js';
+import dayjs from 'https://app.unpkg.com/dayjs@1.8.9/files/esm';
+
+console.log(dayjs());
 
 let cartProductHTML = '';
 
