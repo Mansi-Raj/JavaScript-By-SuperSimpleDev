@@ -80,7 +80,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
 
     const deliveryPriceString = deliveryOption.priceCents === 0 ?
       'FREE' : `$${moneyFormatting(deliveryOption.priceCents)} -`;
-      const isChecked = deliveryOption.id === (cartItem.deliveryOptionId || '1');
+    const isChecked = deliveryOption.id === (cartItem.deliveryOptionId || '1');
 
     html += `
         <div class="delivery-option js-delivery-option"
@@ -115,6 +115,9 @@ function calculateDeliveryDate(deliveryOption) {
 //action of radio button of delivery options
 document.querySelectorAll('.js-delivery-option').forEach((element) => {
   element.addEventListener('click', () => {
+    const radioButton = element.querySelector('input[type="radio"]');
+    radioButton.checked = true;
+    
     const {productId, deliveryOptionId} = element.dataset;
     let selectedOption;
     deliveryOptions.forEach((option) => {
