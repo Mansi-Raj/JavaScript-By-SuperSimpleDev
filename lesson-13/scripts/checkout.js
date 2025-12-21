@@ -4,8 +4,7 @@ import { moneyFormatting } from './utilities/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions } from '../data/deliveryOptions.js';
 
-console.log(dayjs());
-
+//cart generation
 let cartProductHTML = '';
 
 cart.forEach((cartItem) => {
@@ -19,11 +18,21 @@ cart.forEach((cartItem) => {
     }
   });
 
+  
+  const deliveryOptionId = cartItem.deliveryOptionId || '1';
+  let selectedOption;
+
+  deliveryOptions.forEach((option) => {
+    if (option.id === deliveryOptionId) {
+      selectedOption = option;
+    }
+  });
+
   cartProductHTML += `
     <div class="cart-item-container
       js-cart-item-container-${matchingProduct.id}">
-      <div class="delivery-date">
-        Delivery date:
+      <div class="delivery-date js-delivery-date-${matchingProduct.id}">
+        Delivery date: ${calculateDeliveryDate(selectedOption)}
       </div>
 
       <div class="cart-item-details-grid">
@@ -54,33 +63,36 @@ cart.forEach((cartItem) => {
           <div class="delivery-options-title">
             Choose a delivery option:
           </div>
-          ${deliveryOptionsHTML(matchingProduct)}
+          ${deliveryOptionsHTML(matchingProduct, cartItem)}
         </div>
       </div>
     </div>
   `;
 });
 
-function deliveryOptionsHTML(matchingProduct){
+document.querySelector('.js-order-summary')
+  .innerHTML = cartProductHTML;
+
+//delivery options generation
+function deliveryOptionsHTML(matchingProduct, cartItem){
   let html = '';
   deliveryOptions.forEach((deliveryOption) => {
 
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.days, 'days');
-    const deliveryDateString = deliveryDate.format('dddd, MMMM D');
-
     const deliveryPriceString = deliveryOption.priceCents === 0 ?
       'FREE' : `$${moneyFormatting(deliveryOption.priceCents)} -`;
+      const isChecked = deliveryOption.id === (cartItem.deliveryOptionId || '1');
 
     html += `
-        <div class="delivery-option">
+        <div class="delivery-option js-delivery-option"
+        data-product-id="${matchingProduct.id}"
+        data-delivery-option-id="${deliveryOption.id}">
         <input type="radio" 
-          ${deliveryOption.id === '1' ? 'checked' : ''}
+          ${isChecked ? 'checked' : ''}
           class="delivery-option-input"
           name="delivery-option-${matchingProduct.id}">
         <div>
           <div class="delivery-option-date">
-            ${deliveryDateString}
+            ${calculateDeliveryDate(deliveryOption)}
           </div>
           <div class="delivery-option-price">
             ${deliveryPriceString} Shipping
@@ -92,12 +104,37 @@ function deliveryOptionsHTML(matchingProduct){
   return html;
 }
 
-document.querySelector('.js-order-summary')
-  .innerHTML = cartProductHTML;
+//delivery date calculator
+function calculateDeliveryDate(deliveryOption) {
+  const today = dayjs();
+  const deliveryDate = today.add(deliveryOption.days, 'days');
+  const dateString = deliveryDate.format('dddd, MMMM D');
+  return dateString;
+}
 
+//action of radio button of delivery options
+document.querySelectorAll('.js-delivery-option').forEach((element) => {
+  element.addEventListener('click', () => {
+    const {productId, deliveryOptionId} = element.dataset;
+    let selectedOption;
+    deliveryOptions.forEach((option) => {
+      if (option.id === deliveryOptionId) {
+        selectedOption = option;
+      }
+    });
+
+    const dateString = calculateDeliveryDate(selectedOption);
+
+    const dateHeader = document.querySelector(`.js-delivery-date-${productId}`);
+    dateHeader.innerHTML = `Delivery date: ${dateString}`;
+  });
+});
+
+//checkout count
 let checkoutCount = document.querySelector('.js-checkout-count');
 checkoutCount.innerHTML = `${updateCartQuantity()} items`;
 
+//delete link working and updation checkout page
 document.querySelectorAll('.js-delete-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
@@ -111,6 +148,7 @@ document.querySelectorAll('.js-delete-link')
     });
   });
 
+//update link working and updation checkout page
 document.querySelectorAll('.js-update-link').forEach((link) => {
   link.addEventListener('click', () => {
     const productId = link.dataset.productId;

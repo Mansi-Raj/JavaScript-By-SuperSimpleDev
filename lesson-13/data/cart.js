@@ -8,6 +8,7 @@ function saveToCart(){
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+//add to cart and save it in local storage
 export function addToCart(productId){
   let quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
 
@@ -33,6 +34,7 @@ export function addToCart(productId){
   saveToCart();
 }
 
+//remove from cart and update local storage
 export function removeFromCart(productId) {
   const newCart = [];
 
@@ -46,6 +48,7 @@ export function removeFromCart(productId) {
   saveToCart();
 }
 
+//update cart quantity
 export function updateCartQuantity(){
   let cartQuantity = 0;
   cart.forEach((cartItem) => {
@@ -54,6 +57,7 @@ export function updateCartQuantity(){
   return cartQuantity;
 }
 
+// update item quantity
 export function updateQuantity(productId, newQuantity) {
   let matchingItem;
 

@@ -2,6 +2,7 @@ import { cart, addToCart, updateCartQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { moneyFormatting } from './utilities/money.js';
 
+//generate html for each product
 let productHTML = '';
 
 products.forEach((product) => {
@@ -44,6 +45,7 @@ products.forEach((product) => {
   `;
 });
 
+//quantity option of each product
 function generateOptions(count) {
   let options = '';
   for (let i = 1; i <= count; i++) {
@@ -51,12 +53,13 @@ function generateOptions(count) {
   }
   return options;
 }
+document.querySelector('.js-products-grid').innerHTML = productHTML;
+
 
 let cartQuantity = document.querySelector('.js-cart-quantity');
 cartQuantity.innerHTML = updateCartQuantity();
 
-document.querySelector('.js-products-grid').innerHTML = productHTML;
-
+//add to cart button working
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
