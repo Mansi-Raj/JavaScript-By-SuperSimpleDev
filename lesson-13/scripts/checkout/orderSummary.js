@@ -1,8 +1,8 @@
 import { cart, removeFromCart, updateCartQuantity, updateQuantity, updateDeliveryOption } from '../../data/cart.js';
-import { products } from '../../data/products.js';
+import {  getProduct } from '../../data/products.js';
 import { moneyFormatting } from '../utilities/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import { deliveryOptions } from '../../data/deliveryOptions.js';
+import { deliveryOptions, getSelectedDeliveryOption } from '../../data/deliveryOptions.js';
 
 export function renderOrderSummary(){
   //cart generation
@@ -11,29 +11,14 @@ export function renderOrderSummary(){
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
 
-    let matchingProduct;
-
-    products.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
-
-    
+    const matchingProduct = getProduct(productId);
     const deliveryOptionId = cartItem.deliveryOptionId || '1';
-    let selectedOption;
-
-    deliveryOptions.forEach((option) => {
-      if (option.id === deliveryOptionId) {
-        selectedOption = option;
-      }
-    });
 
     cartProductHTML += `
       <div class="cart-item-container
         js-cart-item-container-${matchingProduct.id}">
         <div class="delivery-date js-delivery-date-${matchingProduct.id}">
-          Delivery date: ${calculateDeliveryDate(selectedOption)}
+          Delivery date: ${calculateDeliveryDate(getSelectedDeliveryOption(deliveryOptionId))}
         </div>
 
         <div class="cart-item-details-grid">
@@ -122,14 +107,7 @@ export function renderOrderSummary(){
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
 
-      let selectedOption;
-      deliveryOptions.forEach((option) => {
-        if (option.id === deliveryOptionId) {
-          selectedOption = option;
-        }
-      });
-
-      const dateString = calculateDeliveryDate(selectedOption);
+      const dateString = calculateDeliveryDate(getSelectedDeliveryOption(deliveryOptionId));
       const dateHeader = document.querySelector(`.js-delivery-date-${productId}`);
       dateHeader.innerHTML = `Delivery date: ${dateString}`;
     });
