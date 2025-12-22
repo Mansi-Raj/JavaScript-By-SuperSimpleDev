@@ -3,9 +3,9 @@ import { getSelectedDeliveryOption } from '../../data/deliveryOptions.js';
 import { getProduct } from '../../data/products.js';
 import { moneyFormatting } from '../utilities/money.js';
 
-export function paymentSummary(){
-  let totalProductPrice;
-  let shippingPrice;
+export function renderPaymentSummary(){
+  let totalProductPrice = 0;
+  let shippingPrice = 0;
 
   cart.forEach((cartItem) => {
     const product = getProduct(cartItem.productId);
