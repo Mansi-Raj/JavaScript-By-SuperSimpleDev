@@ -5,7 +5,7 @@ function Cart(){
 
   loadFromLocalStorage(){
 
-    this.cartItems =  JSON.parse(localStorage.getItem('cart'));
+    this.cartItems =  JSON.parse(localStorage.getItem('cart-oop'));
 
     if (!this.cartItems) {
       this.cartItems = [];
@@ -13,7 +13,7 @@ function Cart(){
   },
 
   saveToCart(){
-    localStorage.setItem('cart', JSON.stringify(this.cartItems));
+    localStorage.setItem('cart-oop', JSON.stringify(this.cartItems));
   },
 
     //add to cart and save it in local storage
@@ -24,7 +24,7 @@ function Cart(){
 
       let matchingItem;
 
-      cart.forEach((cartItem) => {
+      this.cartItems.forEach((cartItem) => {
         if(productId === cartItem.productId){
           matchingItem = cartItem;
         }
@@ -33,7 +33,7 @@ function Cart(){
       if(matchingItem){
         matchingItem.quantity += quantity;
       }else{
-        cart.push({
+        this.cartItems.push({
           productId: productId,
           quantity: quantity,
           deliveryOptionId: '1'
@@ -46,7 +46,7 @@ function Cart(){
     removeFromCart(productId) {
       const newCart = [];
 
-      cart.forEach((cartItem) => {
+      this.cartItems.forEach((cartItem) => {
         if (cartItem.productId !== productId) {
           newCart.push(cartItem);    
         }
@@ -97,3 +97,6 @@ function Cart(){
   return cart;
 }
 
+export const cart = Cart();
+cart.loadFromLocalStorage();
+console.log(cart);
