@@ -1,4 +1,4 @@
-import { moneyFormatting } from '../scripts/utilities/money';
+import { moneyFormatting } from '../scripts/utilities/money.js';
 
 export function getProduct(productId){
   let matchingProduct;
