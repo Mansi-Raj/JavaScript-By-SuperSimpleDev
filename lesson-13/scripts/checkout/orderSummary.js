@@ -1,5 +1,5 @@
 import { cart, removeFromCart, updateCartQuantity, updateQuantity, updateDeliveryOption } from '../../data/cart.js';
-import {  getProduct, products } from '../../data/products.js';
+import {  getProduct} from '../../data/products.js';
 import { moneyFormatting } from '../utilities/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getSelectedDeliveryOption } from '../../data/deliveryOptions.js';
