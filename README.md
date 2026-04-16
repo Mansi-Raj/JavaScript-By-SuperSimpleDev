@@ -1,4 +1,4 @@
-# JavaScript-By-SuperSimpleDev
+# JavaScript
 
 ## Source Links
 
